@@ -1,0 +1,7 @@
+{
+  "name": "dxp-presupuestos",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
