@@ -30,7 +30,8 @@ export class SalePage implements OnInit {
   }
 
   async update() {
-    this.apiService.getSale(this.sale.id).subscribe( sale => this.sale = sale )
+    const id: string = this.sale.id.toString();
+    this.apiService.getSale(id).subscribe( sale => this.sale = sale )
   }
 
   status( status: string) {
