@@ -1,27 +1,17 @@
-#container {
-  text-align: center;
 
+.scan-box {
+  border: 2px solid #fff;
+  box-shadow: 0 0 0 100vmax rgb(0, 0, 0, 0.5);
+  content: "";
+  display: block;
+  left: 50%;
+  height: 300px;
   position: absolute;
-  left: 0;
-  right: 0;
   top: 50%;
-  transform: translateY(-50%);
+  transform: translate(-50%, -50%);
+  width: 300px;
 }
 
-#container strong {
-  font-size: 20px;
-  line-height: 26px;
-}
-
-#container p {
-  font-size: 16px;
-  line-height: 22px;
-
-  color: #8c8c8c;
-
-  margin: 0;
-}
-
-#container a {
-  text-decoration: none;
+ion-content {
+  --background: #36363a;
 }

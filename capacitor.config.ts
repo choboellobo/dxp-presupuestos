@@ -1,10 +1,15 @@
 import { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
-  appId: 'io.ionic.starter',
-  appName: 'dxp-presupuestos',
+  appId: 'dxp.order.app',
+  appName: 'DXP TRABAJO',
   webDir: 'www',
-  bundledWebRuntime: false
+  bundledWebRuntime: false,
+  "plugins": {
+    "SplashScreen": {
+      "launchShowDuration": 1
+    }
+  }
 };
 
 export default config;

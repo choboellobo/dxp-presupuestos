@@ -1,0 +1,17 @@
+ion-toolbar {
+    --background: #36363a;
+    color: white;
+}
+ion-content {
+    --background: #36363a;
+    * {
+        color: white;
+    }
+  }
+
+ion-list {
+    background: #36363a;
+    ion-item {
+        --background: #36363a;
+    }
+}  
