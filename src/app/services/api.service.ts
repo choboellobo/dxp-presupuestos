@@ -10,8 +10,9 @@ export class ApiService {
     private http: HttpClient
   ) { }
 
-  getSale(id: string) {
-    let _id = id.replace(/ /, '');
+  getSale(id: string) { 
+    let _id = id.replace('\x00', '');
+    console.log(_id)
     const url = this.url + '/sale/' +  _id;
     console.log(url)
     return this.http.get(url)

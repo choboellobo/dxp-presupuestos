@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { LoadingController, ModalController } from '@ionic/angular';
+import { AlertController, LoadingController, ModalController } from '@ionic/angular';
 import { ApiService } from '../services/api.service';
 
 @Component({
@@ -18,14 +18,19 @@ export class SalePage implements OnInit {
   constructor(
     private apiService: ApiService,
     public modalCtrl: ModalController,
-    private loadingCtrl: LoadingController
+    private loadingCtrl: LoadingController,
+    private alertCtrl: AlertController
   ) { }
 
   ngOnInit() {
     const partner_id = this.sale.partner_id[0];
     this.apiService.partner(partner_id)
       .subscribe( (data: any ) => {
-        this.partner = data[0]
+        this.partner = data[0];
+        if( !this.partner.phone_sanitized ) {
+          const phone = this.partner.name.match(/[0-9]{9}\s/) 
+          this.partner.phone_sanitized = phone ? '+34'+phone[0] : false
+        }
       } )
   }
 
@@ -94,6 +99,33 @@ export class SalePage implements OnInit {
   openWhatsapp(phone: string) {
     const _phone = phone.replace('+', '');
     window.open('https://wa.me/' + _phone )
+  }
+
+  async openWhatsappEnd(phone: string) {
+    const alertRef  = await this.alertCtrl.create({
+      header: 'Enviar Whatsapp',
+      inputs: [
+        {
+          type: 'textarea',
+          name: 'message',
+          value: `DXP Urban Mobility te informa, que la reparación número ${this.sale.id } de tu patinete ya ha finalizado. Puedes pasar ya a recogerlo, recuerda estamos en Calle del Arzobispo Gandasegui, 5, 47002 Valladolid,
+https://shorturl.at/gpsY9
+Muchas gracias por confiar en nosotros.`
+        }
+      ],
+      buttons: [
+        'Cancelar',
+        {
+          text: "Enviar",
+          handler: ({message}) => {
+            const _phone = phone.replace('+', '');
+            const url = 'https://wa.me/' + _phone.trim() + '?text=' + encodeURIComponent(message)
+            window.open(url )
+          }
+        }
+      ]
+    })
+    await alertRef.present();
   }
 
 }

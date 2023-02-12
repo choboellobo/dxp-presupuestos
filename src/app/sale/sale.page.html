@@ -34,6 +34,12 @@
         {{ partner.phone_sanitized}}
       </ion-button>
     </ion-col>
+    <ion-col size="12" class="ion-text-center" *ngIf="sale.state == 'sale' ">
+      
+      <ion-button (click)="openWhatsappEnd(partner.phone_sanitized)">
+        <ion-icon slot="start" name="logo-whatsapp"></ion-icon>
+         Whatsapp finalización trabajo</ion-button>
+    </ion-col>
 
     <ion-col size="12">
       <h4>Descripción de tareas</h4>

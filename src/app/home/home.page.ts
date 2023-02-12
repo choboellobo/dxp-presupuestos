@@ -67,6 +67,7 @@ export class HomePage {
   async getOrderAndOpenModal(order_id: string) {
     const loadingRef = await this.loadingCtrl.create({'message': 'Espere...'})
     await loadingRef.present();
+    console.log(order_id);
     this.apiService.getSale(order_id).subscribe( 
       async sale => {
         await loadingRef.dismiss();
