@@ -25,6 +25,18 @@ const getSaleLines = (line) => {
     })
 }  
 
+const getSale = (id) => {
+    return new Promise( (resolve, reject) => {
+        odoo.connect( (err) => {
+            if( err ) return res.status(500).json(err);
+            odoo.get('sale.order', parseInt(id), (err, data) => {
+                if( err ) return reject(err)
+                resolve(data[0])
+            })
+        })
+    }) 
+}
+
 
 app.get('/sale/:sale', (req, res) =>  {
     const sale = req.params.sale;
@@ -77,6 +89,20 @@ app.get('/partner/:id', (req, res) => {
         })
 
     }else return res.status(404).send('Partner not found')
+})
+
+
+app.get('/sales-draft', (req, res) => {
+    odoo.connect( (err) => {
+        if( err ) return res.status(500).json(err);
+        odoo.search('sale.order', [
+            ['state', '=', 'draft']
+        ] , (err, data) => {
+             if (err) return res.status(500).json(err);
+             const promises = Promise.all( data.map( id => getSale(id)))
+             promises.then( data => res.json(data))
+        })
+    })
 })
 
 exports.app = functions.region('europe-west3').https.onRequest(app);
