@@ -10,9 +10,10 @@ import { ApiService } from '../services/api.service';
   styleUrls: ['home.page.scss'],
 })
 export class HomePage {
-
+  pendienteModal: boolean = false;
   scanActive: boolean = false;
   order: string = '';
+  orders: any[] = []
   constructor(
     private apiService: ApiService,
     private loadingCtrl: LoadingController,
@@ -87,6 +88,24 @@ export class HomePage {
     if( this.order ) {
       this.getOrderAndOpenModal(this.order);
     }
+  }
+
+  async getOrderDraft() {
+    const loadingRef = await this.loadingCtrl.create({message: 'Espere...'});
+    await loadingRef.present();
+    this.pendienteModal = true;
+    this.apiService.ordersDraft().subscribe( (data: any) => {
+      loadingRef.dismiss();
+      this.orders = data;
+    }, error => {
+      loadingRef.dismiss();
+      alert("Hubo un error")
+    })
+  }
+
+  openOrder(id: number) {
+    this.order = id.toString();
+    this.searchOrder();
   }
 
 }

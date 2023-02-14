@@ -104,6 +104,7 @@ export class SalePage implements OnInit {
   async openWhatsappEnd(phone: string) {
     const alertRef  = await this.alertCtrl.create({
       header: 'Enviar Whatsapp',
+      subHeader: phone,
       inputs: [
         {
           type: 'textarea',

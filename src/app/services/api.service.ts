@@ -12,9 +12,7 @@ export class ApiService {
 
   getSale(id: string) { 
     let _id = id.replace('\x00', '');
-    console.log(_id)
     const url = this.url + '/sale/' +  _id;
-    console.log(url)
     return this.http.get(url)
   }
 
@@ -56,4 +54,8 @@ export class ApiService {
   partner(id: string) {
     return this.http.get(this.url + '/partner/' +  id)
   } 
+
+  ordersDraft() {
+    return this.http.get(this.url + '/sales-draft')
+  }
 }

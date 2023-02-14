@@ -46,7 +46,7 @@
       <ion-list>
         <ng-container *ngFor="let line of sale.order_line">
           <ion-item *ngIf="line.display_type === false">
-            <ion-label>
+            <ion-label class="ion-text-wrap">
               <strong>{{ line.name }}</strong> <br>
               Cantidad: <strong>{{ line.product_uom_qty}}</strong> 
               Precio: <strong>{{ line.price_unit }} €</strong> <br>
@@ -54,7 +54,7 @@
             </ion-label>
           </ion-item>
           <ion-item *ngIf="line.display_type == 'line_note'">
-            <ion-label>
+            <ion-label class="ion-text-wrap">
               <strong>{{ line.name }}</strong>
             </ion-label>
           </ion-item>
