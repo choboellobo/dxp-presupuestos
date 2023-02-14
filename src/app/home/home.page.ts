@@ -106,6 +106,8 @@ export class HomePage {
   openOrder(id: number) {
     this.order = id.toString();
     this.searchOrder();
+    this.pendienteModal = false;
+    setTimeout(() => this.order = '', 2000)
   }
 
 }
