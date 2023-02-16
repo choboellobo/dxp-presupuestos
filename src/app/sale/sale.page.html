@@ -1,5 +1,10 @@
 <ion-header>
   <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="goHome()">
+        <ion-icon slot="icon-only"  name="home"></ion-icon>
+      </ion-button>
+    </ion-buttons>
     <ion-title>Reparación: {{ sale.display_name }}</ion-title>
     <ion-buttons slot="end">
       <ion-button (click)="endTask()" *ngIf="sale.state == 'draft' ">

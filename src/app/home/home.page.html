@@ -1,9 +1,6 @@
 
 <ion-content class="ion-padding" [style.--background]="scanActive ? '#00000000' : '#36363a' " >
 
-  <ion-fab slot="fixed" horizontal="end" vertical="bottom">
-    <ion-button (click)="getOrderDraft()">Trabajo pendiente</ion-button>
-  </ion-fab>
 
   <img src="../../assets/logo.png" width="100%">
   
@@ -27,35 +24,6 @@
   </ion-row>
   <div class="scan-box" [hidden]="!scanActive"></div>
 
-
-  <ion-modal [isOpen]="pendienteModal" [initialBreakpoint]="0.85" [breakpoints]="[0.85]">
-    <ng-template>
-      <ion-header>
-        <ion-toolbar>
-          <ion-title>Trabajo pendiente</ion-title>
-          <ion-buttons slot="end">
-            <ion-button (click)="pendienteModal = false">
-              <ion-icon slot="icon-only" name="close-outline"></ion-icon>
-            </ion-button>
-          </ion-buttons>
-        </ion-toolbar>
-      </ion-header>
-      <ion-content class="ion-padding">
-        <ion-row>
-          <ion-col size="12">
-            <ion-list>
-              <ion-item *ngFor="let _order of orders" (click)="openOrder(_order.id)">
-                <ion-label>
-                  <h4> <strong>({{ _order.id }})</strong>  {{ _order.partner_id[1] }}</h4>
-                  <p>Fecha orden de trabajo: <strong>{{_order.date_order | date:'dd/MM/yyyy'}}</strong></p>
-                </ion-label>
-              </ion-item>
-            </ion-list>
-          </ion-col>
-        </ion-row>
-      </ion-content>
-    </ng-template>
-  </ion-modal>
 
 
 

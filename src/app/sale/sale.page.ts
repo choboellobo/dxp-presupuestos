@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { AlertController, LoadingController, ModalController } from '@ionic/angular';
 import { ApiService } from '../services/api.service';
 
@@ -19,7 +20,8 @@ export class SalePage implements OnInit {
     private apiService: ApiService,
     public modalCtrl: ModalController,
     private loadingCtrl: LoadingController,
-    private alertCtrl: AlertController
+    private alertCtrl: AlertController,
+    private router: Router
   ) { }
 
   ngOnInit() {
@@ -32,6 +34,10 @@ export class SalePage implements OnInit {
           this.partner.phone_sanitized = phone ? '+34'+phone[0] : false
         }
       } )
+  }
+
+  goHome() {
+    window.location.reload();
   }
 
   async update() {
