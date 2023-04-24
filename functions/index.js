@@ -63,6 +63,27 @@ app.post('/sale-line', (req, res) => {
         })
     })
 })
+app.delete('/sale-line/:id', (req, res) => {
+
+    odoo.connect( (err) => {
+        if( err ) return res.status(500).json(err);
+        odoo.delete('sale.order.line', parseInt(req.params.id), (err, data) => {
+            if( err ) return res.status(500).json(err);
+            res.json(data)
+        })
+    })
+})
+
+app.put('/sale-line/:id', (req, res) => {
+    odoo.connect( (err) => {
+        if( err ) return res.status(500).json(err);
+        odoo.update('sale.order.line', parseInt(req.params.id), req.body, (err, data) => {
+            if( err ) return res.status(500).json(err);
+            res.json(data)
+        })
+    })
+})
+
 
 app.put('/sale/:sale', (req, res) => {
     const sale = req.params.sale;
@@ -91,7 +112,6 @@ app.get('/partner/:id', (req, res) => {
     }else return res.status(404).send('Partner not found')
 })
 
-
 app.get('/sales-draft', (req, res) => {
     odoo.connect( (err) => {
         if( err ) return res.status(500).json(err);
@@ -104,6 +124,7 @@ app.get('/sales-draft', (req, res) => {
         })
     })
 })
+
 
 exports.app = functions.region('europe-west3').https.onRequest(app);
 

@@ -16,6 +16,9 @@ export class SalePage implements OnInit {
   quantity: number = 1;
   price!: number | null;
   partner: any;
+
+  line_note_edit!: number;
+  line_draft_edit!: number;
   constructor(
     private apiService: ApiService,
     public modalCtrl: ModalController,
@@ -94,6 +97,26 @@ export class SalePage implements OnInit {
       )
   }
 
+  async deleteLine(line_id: number) {
+    const alertRef = await this.alertCtrl.create({
+      header: 'Borrar linea',
+      message: '¿Desea borrar esta linea?',
+      buttons: [
+        'Cancelar',
+        {
+          text: 'Si, Borrar',
+          handler: () => {
+            this.apiService.deleteLine( line_id)
+              .subscribe( () => {
+                this.update();
+              })
+          }
+        }
+      ]
+    })
+    await alertRef.present();
+  }
+
   closeModal() {
     this.modalNote = false;
     this.modalProduct = false;
@@ -134,5 +157,44 @@ Muchas gracias por confiar en nosotros.`
     })
     await alertRef.present();
   }
+
+  async editLineNote() {
+    const loadingRef = await this.loadingCtrl.create();
+    await loadingRef.present();
+
+    this.apiService.updateLine( this.line_note_edit.toString() , { name: this.line }) 
+      .subscribe( () =>  {
+        loadingRef.dismiss();
+        this.update();
+      })
+    // Editar linea
+    this.modalNote = false;
+    this.line_note_edit = null as any;
+    this.line = null as any;
+  }
+
+  async editLineProduct() {
+    const loadingRef = await this.loadingCtrl.create();
+    await loadingRef.present();
+    const body = {
+      name: this.line,
+      product_uom_qty: this.quantity,
+      price_unit: this.price
+    }
+    this.apiService.updateLine( this.line_draft_edit.toString() , body ) 
+    .subscribe( () =>  {
+      loadingRef.dismiss();
+      this.update();
+    })
+
+
+    this.modalProduct = false;
+    this.line_draft_edit = null as any;
+    this.line = null as any;
+    this.price = null as any;
+    this.quantity = null as any;
+  }
+
+
 
 }

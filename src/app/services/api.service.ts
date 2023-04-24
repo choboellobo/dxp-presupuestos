@@ -44,6 +44,11 @@ export class ApiService {
    return this.http.post( this.url + '/sale-line' , body )
  }
 
+ 
+ updateLine(line_id: string, body: Object ) {
+  return this.http.put(this.url + '/sale-line/' +  line_id,  body )
+ }
+
   endTask(id: string ) {
     const body = {
       "state": "sale"
@@ -57,5 +62,9 @@ export class ApiService {
 
   ordersDraft() {
     return this.http.get(this.url + '/sales-draft')
+  }
+
+  deleteLine( line_id: number) {
+    return this.http.delete(this.url + '/sale-line/' +  line_id )
   }
 }

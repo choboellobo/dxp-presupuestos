@@ -5,7 +5,7 @@
         <ion-icon slot="icon-only"  name="home"></ion-icon>
       </ion-button>
     </ion-buttons>
-    <ion-title>Reparación: {{ sale.display_name }}</ion-title>
+    <ion-title>{{ sale.id }}</ion-title>
     <ion-buttons slot="end">
       <ion-button (click)="endTask()" *ngIf="sale.state == 'draft' ">
         <ion-icon slot="icon-only" name="checkmark-circle-outline"></ion-icon>
@@ -50,27 +50,46 @@
       <h4 style="margin: 0">Descripción de tareas</h4>
       <small *ngIf="sale.activity_user_id">Para hacer por  <strong>{{ sale.activity_user_id[1]  }}</strong></small>
       <ion-list>
-        <ng-container *ngFor="let line of sale.order_line">
-          <ion-item *ngIf="line.display_type === false">
+        <ng-container *ngFor="let _line of sale.order_line">
+          <!-- Product -->
+          <ion-item *ngIf="_line.display_type === false">
             <ion-label class="ion-text-wrap">
-              <strong>{{ line.name }}</strong> <br>
-              Cantidad: <strong>{{ line.product_uom_qty}}</strong> 
-              Precio: <strong>{{ line.price_unit }} €</strong> <br>
-              Total: <strong>{{ line.price_total}} €</strong>
+              <strong>{{ _line.name }}</strong> <br>
+              Cantidad: <strong>{{ _line.product_uom_qty}}</strong> 
+              Precio: <strong>{{ _line.price_unit }} €</strong> <br>
+              Total: <strong>{{ _line.price_total}} €</strong>
             </ion-label>
+            <ion-buttons slot="end">
+              <ion-button (click)="line_draft_edit = _line.id;  line = _line.name; quantity = _line.product_uom_qty ; price =  _line.price_unit;  modalProduct = true; ">
+                <ion-icon  slot="icon-only" name="create-outline"></ion-icon>
+              </ion-button>
+              <ion-button color="danger" (click)="deleteLine(_line.id)">
+                <ion-icon color="danger" slot="icon-only" name="trash-outline"></ion-icon>
+              </ion-button>
+            </ion-buttons>
           </ion-item>
-          <ion-item *ngIf="line.display_type == 'line_note'">
+          <!-- Line Note -->
+          <ion-item *ngIf="_line.display_type == 'line_note'">
             <ion-label class="ion-text-wrap">
-              <strong>{{ line.name }}</strong>
+              <strong>{{ _line.name }}</strong>
             </ion-label>
+            <ion-buttons slot="end">
+              <ion-button (click)="line_note_edit = _line.id;  line = _line.name;  modalNote = true; ">
+                <ion-icon  slot="icon-only" name="create-outline"></ion-icon>
+              </ion-button>
+              <ion-button color="danger" (click)="deleteLine( _line.id)">
+                <ion-icon color="danger" slot="icon-only" name="trash-outline"></ion-icon>
+              </ion-button>
+            </ion-buttons>
           </ion-item>
         </ng-container>
+       
       </ion-list>
     </ion-col>
   </ion-row>
-  <ion-row *ngIf="sale.state == 'draft' ">
+  <ion-row *ngIf="sale.state == 'draft'">
     <ion-col size="12" class="ion-text-center">
-      <ion-button (click)="modalNote = true">Añadir nota</ion-button>
+      <ion-button (click)="line_note_edit = 0; modalNote = true">Añadir nota</ion-button>
       <ion-button (click)="modalProduct = true ">Añadir reparación</ion-button>
     </ion-col>
   </ion-row>
@@ -80,7 +99,7 @@
     <ng-template>
       <ion-header>
         <ion-toolbar>
-          <ion-title>Añadir nota</ion-title>
+          <ion-title>Nota</ion-title>
           <ion-buttons slot="end">
             <ion-button (click)="closeModal()">
               <ion-icon slot="icon-only" name="close-outline"></ion-icon>
@@ -95,7 +114,8 @@
               <ion-label position="floating">Escribe aquí</ion-label>
               <ion-textarea [(ngModel)]="line"></ion-textarea>
             </ion-item>
-            <ion-button (click)="addLineNote()">Añadir linea</ion-button>
+            <ion-button [disabled]="!line" *ngIf="!line_note_edit" (click)="addLineNote()">Añadir linea</ion-button>
+            <ion-button [disabled]="!line" *ngIf="line_note_edit" (click)="editLineNote()">Editar linea</ion-button>
           </ion-col>
         </ion-row>
       </ion-content>
@@ -106,7 +126,7 @@
     <ng-template>
       <ion-header>
         <ion-toolbar>
-          <ion-title>Añadir reparación</ion-title>
+          <ion-title>Reparación</ion-title>
           <ion-buttons slot="end">
             <ion-button (click)="closeModal()">
               <ion-icon slot="icon-only" name="close-outline"></ion-icon>
@@ -134,7 +154,9 @@
               <ion-input type="tel" [(ngModel)]="price"></ion-input>
             </ion-item>
           </ion-col>
-          <ion-button [disabled]="!line || !price || !quantity" (click)="addLineProduct()">Añadir linea</ion-button>
+          <ion-button *ngIf="!line_draft_edit" [disabled]="!line || !price || !quantity" (click)="addLineProduct()">Añadir reparación</ion-button>
+          <ion-button *ngIf="line_draft_edit" [disabled]="!line || !price || !quantity" (click)="editLineProduct()">Editar reparación</ion-button>
+
         </ion-row>
       </ion-content>
     </ng-template>

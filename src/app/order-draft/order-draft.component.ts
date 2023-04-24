@@ -41,6 +41,12 @@ export class OrderDraftComponent implements OnInit {
            }
         }
       }
+      const person_selected_storage = localStorage.getItem("person_selected");
+      if( person_selected_storage && person_selected_storage != 'null') {
+        this.person_selected = person_selected_storage;
+        this.filterOrders()
+      }
+
       loadingRef.dismiss();
     }, error => {
       loadingRef.dismiss();
@@ -76,9 +82,12 @@ export class OrderDraftComponent implements OnInit {
 
 
   filterOrders() {
+
     if( this.person_selected == 'null') {
+      localStorage.setItem('person_selected', this.person_selected);
       this.orders = this._orders;
     }else {
+      localStorage.setItem('person_selected', this.person_selected);
       this.orders = this._orders.filter( order => order.activity_user_id && order.activity_user_id[1] == this.person_selected )
     }
   }
