@@ -139,8 +139,7 @@ export class SalePage implements OnInit {
           type: 'textarea',
           name: 'message',
           value: `DXP Urban Mobility te informa, que la reparación número ${this.sale.id } de tu patinete ya ha finalizado. Puedes pasar ya a recogerlo, recuerda estamos en Calle del Arzobispo Gandasegui, 5, 47002 Valladolid,
-https://shorturl.at/gpsY9
-Muchas gracias por confiar en nosotros.`
+https://shorturl.at/gpsY9 \n Nos ayuda muchísimo tu opinión. Valora con una reseña tu experiencia en el siguiente enlace: https://g.page/r/CVx6TLRUhQKoEB0/review \n Muchas gracias por confiar en nosotros.`
         }
       ],
       buttons: [
