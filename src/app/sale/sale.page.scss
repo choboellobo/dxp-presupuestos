@@ -10,7 +10,8 @@ ion-content {
   }
 
 ion-list {
-    max-height: 60vh;
+    max-height: 55vh;
+    overflow: auto;
     background: #36363a;
     ion-item {
         --background: #36363a;
