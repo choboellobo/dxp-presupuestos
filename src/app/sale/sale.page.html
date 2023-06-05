@@ -49,7 +49,7 @@
     <ion-col size="12">
       <h4 style="margin: 0">Descripción de tareas</h4>
       <small *ngIf="sale.activity_user_id">Para hacer por  <strong>{{ sale.activity_user_id[1]  }}</strong></small>
-      <ion-list>
+      <ion-list class="list">
         <ng-container *ngFor="let _line of sale.order_line">
           <!-- Product -->
           <ion-item *ngIf="_line.display_type === false">
