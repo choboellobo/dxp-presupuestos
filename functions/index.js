@@ -5,6 +5,7 @@ const cors = require('cors');
 const Odoo = require('node-odoo');
 const bodyParser = require("body-parser")
 
+const { generateShareLink } = require('./odoo-xmlrpc.js')
 
 app.use( cors() );
 app.use( bodyParser.json() )
@@ -37,6 +38,13 @@ const getSale = (id) => {
     }) 
 }
 
+
+app.get('/sale-link/:id', (req, res) => {
+    const id = req.params.id;
+    if( id ) {
+        generateShareLink( id ).then( data => res.json(data)).catch( err => res.status(500).json(err))
+    }else return res.status(404).send('Sale not found')
+});
 
 app.get('/sale/:sale', (req, res) =>  {
     const sale = req.params.sale;
@@ -113,6 +121,7 @@ app.get('/partner/:id', (req, res) => {
 })
 
 app.get('/sales-draft', (req, res) => {
+    console.log( "hola ")
     odoo.connect( (err) => {
         if( err ) return res.status(500).json(err);
         odoo.search('sale.order', [
@@ -124,6 +133,7 @@ app.get('/sales-draft', (req, res) => {
         })
     })
 })
+
 
 
 exports.app = functions.region('europe-west3').https.onRequest(app);

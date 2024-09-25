@@ -7,7 +7,7 @@
     </ion-buttons>
     <ion-title>{{ sale.id }}</ion-title>
     <ion-buttons slot="end">
-      <ion-button (click)="endTask()" *ngIf="sale.state == 'draft' ">
+      <ion-button (click)="endTask()" *ngIf="sale.state === 'draft' ">
         <ion-icon slot="icon-only" name="checkmark-circle-outline"></ion-icon>
       </ion-button>
       <ion-button (click)="update()">
@@ -37,11 +37,20 @@
       <ion-button size="small" (click)="openWhatsapp(partner.phone_sanitized)">
         <ion-icon slot="icon-only" name="logo-whatsapp"></ion-icon>
       </ion-button>
-      <ion-button size="small" (click)="openWhatsappPresupuesto(partner.phone_sanitized)" *ngIf="sale.state === 'draft'">
+
+      <ion-button size="small" (click)="openWhatsappPresupuesto(partner.phone_sanitized)" *ngIf="sale.state === 'draft' && sale.access_token ">
         <ion-icon slot="start" name="logo-whatsapp"></ion-icon> Presupuesto
       </ion-button>
+
+      <ion-button size="small" (click)="getLink()" *ngIf="sale.state === 'draft' && !sale.access_token ">
+        Generar Link Presupuesto
+      </ion-button>
+
+
+
+
     </ion-col>
-    <ion-col size="12" class="ion-text-center" *ngIf="sale.state == 'sale' ">
+    <ion-col size="12" class="ion-text-center" *ngIf="sale.state === 'sale' ">
       
       <ion-button (click)="openWhatsappEnd(partner.phone_sanitized)">
         <ion-icon slot="start" name="logo-whatsapp"></ion-icon>
@@ -71,7 +80,7 @@
             </ion-buttons>
           </ion-item>
           <!-- Line Note -->
-          <ion-item *ngIf="_line.display_type == 'line_note'">
+          <ion-item *ngIf="_line.display_type === 'line_note'">
             <ion-label class="ion-text-wrap">
               <strong>{{ _line.name }}</strong>
             </ion-label>
@@ -89,7 +98,7 @@
       </ion-list>
     </ion-col>
   </ion-row>
-  <ion-row *ngIf="sale.state == 'draft'">
+  <ion-row *ngIf="sale.state === 'draft'">
     <ion-col size="12" class="ion-text-center">
       <ion-button (click)="line_note_edit = 0; modalNote = true">Añadir nota</ion-button>
       <ion-button (click)="modalProduct = true ">Añadir reparación</ion-button>

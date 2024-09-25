@@ -67,4 +67,9 @@ export class ApiService {
   deleteLine( line_id: number) {
     return this.http.delete(this.url + '/sale-line/' +  line_id )
   }
+
+  getLink(id: number ) {
+    return this.http.get(this.url + '/sale-link/' + id )
+
+  }
 }

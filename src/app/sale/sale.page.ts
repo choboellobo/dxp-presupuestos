@@ -28,6 +28,10 @@ export class SalePage implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.getData();
+  }
+
+  getData() {
     const partner_id = this.sale.partner_id[0];
     this.apiService.partner(partner_id)
       .subscribe( (data: any ) => {
@@ -123,6 +127,26 @@ export class SalePage implements OnInit {
     this.quantity = 1;
     this.price = null;
     this.line = '';
+  }
+
+  async getLink() {
+    const loading = await this.loadingCtrl.create({message: 'Generando enlace...'})
+    await loading.present();
+    this.apiService.getLink(this.sale.id)
+      .subscribe( async (data: any) => {
+        await loading.dismiss()
+        const regex = /access_token=([^&]+)/;
+        const match = data[0].share_link.match(regex);
+        
+        if (match) {
+          const accessToken = match[1];
+          console.log("Access Token:", accessToken);
+          this.sale.access_token = accessToken;
+        } else {
+          console.log("Access Token no encontrado");
+        }
+        
+      })
   }
 
   openWhatsapp(phone: string) {
