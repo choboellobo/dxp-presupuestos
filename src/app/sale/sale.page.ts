@@ -130,6 +130,32 @@ export class SalePage implements OnInit {
     window.open('https://wa.me/' + _phone )
   }
 
+  async openWhatsappPresupuesto(phone: string) {
+    const alertRef  = await this.alertCtrl.create({
+      header: 'Enviar Whatsapp',
+      subHeader: phone,
+      inputs: [
+        {
+          type: 'textarea',
+          name: 'message',
+          value: `DXP Urban Mobility te informa, pulsa en este enlace para ver el presupuesto de tu reparación\n https://dxp-urban-mobility-sc.odoo.com/${this.sale.access_url}?access_token=${this.sale.access_token}  \n Muchas gracias por confiar en nosotros.`
+        }
+      ],
+      buttons: [
+        'Cancelar',
+        {
+          text: "Enviar",
+          handler: ({message}) => {
+            const _phone = phone.replace('+', '');
+            const url = 'https://wa.me/' + _phone.trim() + '?text=' + encodeURIComponent(message)
+            window.open(url )
+          }
+        }
+      ]
+    })
+    await alertRef.present();
+  }
+
   async openWhatsappEnd(phone: string) {
     const alertRef  = await this.alertCtrl.create({
       header: 'Enviar Whatsapp',

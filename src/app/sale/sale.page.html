@@ -31,12 +31,14 @@
     </ion-col>
     <ion-col size="12" *ngIf="partner && partner.phone_sanitized" class="ion-text-center">
       <ion-button size="small" [href]="'tel:' + partner.phone_sanitized">
-        <ion-icon slot="start" name="call-outline"></ion-icon>
-        {{ partner.phone_sanitized}}
+        <ion-icon slot="icon-only" name="call-outline"></ion-icon>
+        <!-- {{ partner.phone_sanitized}} -->
       </ion-button>
       <ion-button size="small" (click)="openWhatsapp(partner.phone_sanitized)">
-        <ion-icon slot="start" name="logo-whatsapp"></ion-icon>
-        {{ partner.phone_sanitized}}
+        <ion-icon slot="icon-only" name="logo-whatsapp"></ion-icon>
+      </ion-button>
+      <ion-button size="small" (click)="openWhatsappPresupuesto(partner.phone_sanitized)" *ngIf="sale.state === 'draft'">
+        <ion-icon slot="start" name="logo-whatsapp"></ion-icon> Presupuesto
       </ion-button>
     </ion-col>
     <ion-col size="12" class="ion-text-center" *ngIf="sale.state == 'sale' ">
