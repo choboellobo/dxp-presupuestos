@@ -162,7 +162,7 @@ export class SalePage implements OnInit {
         {
           type: 'textarea',
           name: 'message',
-          value: `DXP Urban Mobility te informa, pulsa en este enlace para ver el presupuesto de tu reparación\n https://dxp-urban-mobility-sc.odoo.com/${this.sale.access_url}?access_token=${this.sale.access_token}  \n Muchas gracias por confiar en nosotros.`
+          value: `DXP Urban Mobility te informa, pulsa en este enlace para ver el presupuesto de tu reparación\n https://dxp-urban-mobility-sc.odoo.com/${this.sale.access_url}?access_token=${this.sale.access_token}  \n Esperamos confirmación para proceder a la reparación, un saludo.`
         }
       ],
       buttons: [
