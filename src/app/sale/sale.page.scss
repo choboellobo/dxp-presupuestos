@@ -2,6 +2,14 @@ ion-toolbar {
     --background: #36363a;
     color: white;
 }
+ion-footer {
+    background: #36363a;
+    color: white;
+    h1 {
+        font-weight: bold;
+        margin: 0;
+    }
+}
 ion-content {
     --background: #36363a;
     * {

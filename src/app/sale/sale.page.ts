@@ -29,6 +29,9 @@ export class SalePage implements OnInit {
 
   ngOnInit() {
     this.getData();
+    if( this.sale.state === 'draft'  && !this.sale.access_token ) {
+      this.getLink();
+    }
   }
 
   getData() {
