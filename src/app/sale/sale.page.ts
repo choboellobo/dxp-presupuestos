@@ -191,7 +191,7 @@ export class SalePage implements OnInit {
         {
           type: 'textarea',
           name: 'message',
-          value: `DXP Urban Mobility te informa, pulsa en este enlace para ver el presupuesto de tu reparación\n https://dxp-urban-mobility-sc.odoo.com${this.sale.access_url}?access_token=${this.sale.access_token}  \n Esperamos confirmación para proceder a la reparación, un saludo.\n\n _El link del presupuesto puede tardar unos segundos en estar disponible, si no puedes acceder intenlo pasados unos segundos_`
+          value: `DXP Urban Mobility te informa, pulsa en este enlace para ver el presupuesto de tu reparación\n https://dxp-urban-mobility-sc.odoo.com${this.sale.access_url}?access_token=${this.sale.access_token}  \n Esperamos confirmación para proceder a la reparación, un saludo.\n\n _El link del presupuesto puede tardar unos segundos en estar disponible, si no puedes acceder intentalo pasados unos segundos_`
         }
       ],
       buttons: [
