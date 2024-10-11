@@ -25,3 +25,16 @@ ion-list {
         --background: #36363a;
     }
 }  
+
+
+.line {
+    font-size: 12px;
+    font-weight: bold;
+    height: 15px;
+    &.sent {
+        background-color:  var(--ion-color-success);
+    }
+    &.cancel {
+        background-color:  var(--ion-color-danger);
+    }
+}

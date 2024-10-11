@@ -25,6 +25,14 @@
             <small *ngIf="_order.activity_user_id">Para hacer por  <strong>{{ _order.activity_user_id[1]  }}</strong></small>
             <p>Fecha orden de trabajo: <strong>{{_order.date_order | date:'dd/MM/yyyy'}}</strong></p>
           </ion-label>
+          <ion-buttons slot="end" *ngIf="_order.state === 'sent' || _order.state === 'cancel' ">
+            <ion-button size="small" disabled color="success" *ngIf="_order.state === 'sent' ">
+              <ion-icon slot="icon-only" name="checkmark-circle"></ion-icon>
+            </ion-button>
+            <ion-button size="small" disabled color="danger" *ngIf="_order.state === 'cancel' ">
+              <ion-icon slot="icon-only" name="close-circle"></ion-icon>
+            </ion-button>
+          </ion-buttons>
         </ion-item>
       </ion-list>
     </ion-col>

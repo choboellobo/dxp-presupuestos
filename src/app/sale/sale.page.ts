@@ -92,6 +92,32 @@ export class SalePage implements OnInit {
     }
 
   }
+
+  async acceptDraft() {
+    const loading = await this.loadingCtrl.create({message: 'Espera...'})
+    await loading.present();
+    this.apiService.acceptDraft(this.sale.id)
+      .subscribe(
+        sale => {
+          loading.dismiss();
+          this.update();
+        }
+      )
+  }
+
+  async cancelDraft() {
+    const loading = await this.loadingCtrl.create({message: 'Espera...'})
+    await loading.present();
+    this.apiService.cancelDraft(this.sale.id)
+      .subscribe(
+        sale => {
+          loading.dismiss();
+          this.update();
+        }
+      )
+  }
+
+
   async endTask() {
     const loading = await this.loadingCtrl.create({message: 'Espera...'})
     await loading.present();
@@ -165,7 +191,7 @@ export class SalePage implements OnInit {
         {
           type: 'textarea',
           name: 'message',
-          value: `DXP Urban Mobility te informa, pulsa en este enlace para ver el presupuesto de tu reparación\n https://dxp-urban-mobility-sc.odoo.com/${this.sale.access_url}?access_token=${this.sale.access_token}  \n Esperamos confirmación para proceder a la reparación, un saludo.`
+          value: `DXP Urban Mobility te informa, pulsa en este enlace para ver el presupuesto ${this.sale.id} de tu reparación\n https://dxp-urban-mobility-sc.odoo.com/${this.sale.access_url}?access_token=${this.sale.access_token}  \n Esperamos confirmación para proceder a la reparación, un saludo. \n *El link del presupuesto puede tardar unos segundos en estar disponible, si no puedes acceder intenlo pasados unos segundos*`
         }
       ],
       buttons: [

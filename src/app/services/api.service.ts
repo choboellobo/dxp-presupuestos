@@ -49,6 +49,20 @@ export class ApiService {
   return this.http.put(this.url + '/sale-line/' +  line_id,  body )
  }
 
+ cancelDraft(id: string ) {
+  const body = {
+    "state": "cancel"
+  }
+  return this.http.put(this.url + '/sale/' +  id, body )
+}
+
+ acceptDraft(id: string ) {
+  const body = {
+    "state": "sent"
+  }
+  return this.http.put(this.url + '/sale/' +  id, body )
+}
+
   endTask(id: string ) {
     const body = {
       "state": "sale"

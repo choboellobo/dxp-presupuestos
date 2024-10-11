@@ -120,12 +120,13 @@ app.get('/partner/:id', (req, res) => {
     }else return res.status(404).send('Partner not found')
 })
 
+
 app.get('/sales-draft', (req, res) => {
-    console.log( "hola ")
+
     odoo.connect( (err) => {
         if( err ) return res.status(500).json(err);
         odoo.search('sale.order', [
-            ['state', '=', 'draft']
+            ['state', '!=', 'sale']
         ] , (err, data) => {
              if (err) return res.status(500).json(err);
              const promises = Promise.all( data.map( id => getSale(id)))
