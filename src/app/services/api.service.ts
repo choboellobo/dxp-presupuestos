@@ -86,4 +86,8 @@ export class ApiService {
     return this.http.get(this.url + '/sale-link/' + id )
 
   }
+
+  subscribeTopic( token: string ) {
+    return this.http.post(this.url + '/subscribe-push/all', { token })
+  }
 }

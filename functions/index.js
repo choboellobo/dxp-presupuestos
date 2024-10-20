@@ -1,4 +1,5 @@
 const functions = require("firebase-functions");
+const admin = require("firebase-admin");
 const express = require('express');
 const app = express();
 const cors = require('cors');
@@ -6,6 +7,8 @@ const Odoo = require('node-odoo');
 const bodyParser = require("body-parser")
 
 const { generateShareLink } = require('./odoo-xmlrpc.js')
+
+admin.initializeApp();
 
 app.use( cors() );
 app.use( bodyParser.json() )
@@ -92,7 +95,6 @@ app.put('/sale-line/:id', (req, res) => {
     })
 })
 
-
 app.put('/sale/:sale', (req, res) => {
     const sale = req.params.sale;
     if(sale) {
@@ -120,7 +122,6 @@ app.get('/partner/:id', (req, res) => {
     }else return res.status(404).send('Partner not found')
 })
 
-
 app.get('/sales-draft', (req, res) => {
 
     odoo.connect( (err) => {
@@ -133,6 +134,37 @@ app.get('/sales-draft', (req, res) => {
              promises.then( data => res.json(data))
         })
     })
+})
+
+app.post('/push', (req, res ) => {
+    const { title, body, topic } = req.body;
+    if( title && body && topic ) {
+        const message = {
+            notification: {
+              title,
+              body
+            },
+            data: req.body.data ?? {},
+            topic: topic || 'all' // El nombre del topic al que están suscritos los dispositivos
+          };
+        admin.messaging().send(message)
+            .then( response => res.json(response))
+            .catch( err => res.status(500).json(err))
+    }else {
+        res.status(400).send('Faltan campos')
+    }
+})
+
+app.post('/subscribe-push/:topic', (req, res ) => {
+    const { topic } = req.params
+    const { token } = req.body;
+    if( token ) {
+        admin.messaging().subscribeToTopic(token, topic )
+            .then( response => res.json(response))
+            .catch( err => res.status(500).json(err))
+    }else {
+        res.status(400).send('Faltan campos')
+    }
 })
 
 

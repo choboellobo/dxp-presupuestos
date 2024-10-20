@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "542068797056",
+    "project_id": "presupuestos-dxp",
+    "storage_bucket": "presupuestos-dxp.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:542068797056:android:ba98eefaeede8c584f8065",
+        "android_client_info": {
+          "package_name": "dxp.order.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "542068797056-amrc0l90gllucok3cmihiicr8qf055il.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBAiHxag2QBNHuLMnp9t-TuuAXhwnX4ULA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "542068797056-amrc0l90gllucok3cmihiicr8qf055il.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

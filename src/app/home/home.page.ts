@@ -3,6 +3,7 @@ import { BarcodeScanner } from '@capacitor-community/barcode-scanner';
 import { LoadingController, ModalController } from '@ionic/angular';
 import { SalePage } from '../sale/sale.page';
 import { ApiService } from '../services/api.service';
+import { NotificationsService } from '../services/notifications.service';
 
 @Component({
   selector: 'app-home',
@@ -15,8 +16,14 @@ export class HomePage {
   constructor(
     private apiService: ApiService,
     private loadingCtrl: LoadingController,
-    private modalCtrl: ModalController
-  ) {}
+    private modalCtrl: ModalController,
+    private notificationsService: NotificationsService
+  ) {
+
+    this.notificationsService.openSale$.subscribe( sale => {
+      this.getOrderAndOpenModal(sale.toString());
+    })
+  }
 
 
   async checkPermission() {

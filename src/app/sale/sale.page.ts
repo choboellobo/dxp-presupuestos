@@ -184,6 +184,8 @@ export class SalePage implements OnInit {
   }
 
   async openWhatsappPresupuesto(phone: string) {
+    const b64id = btoa(this.sale.id.toString())
+    const PRESUPUESTO_URL = 'https://presupuestos-dxp.web.app/' + b64id;
     const alertRef  = await this.alertCtrl.create({
       header: 'Enviar Whatsapp',
       subHeader: phone,
@@ -191,7 +193,7 @@ export class SalePage implements OnInit {
         {
           type: 'textarea',
           name: 'message',
-          value: `DXP Urban Mobility te informa, pulsa en este enlace para ver el presupuesto de tu reparación\n https://dxp-urban-mobility-sc.odoo.com${this.sale.access_url}?access_token=${this.sale.access_token}  \n Esperamos confirmación para proceder a la reparación, un saludo.\n\n _El link del presupuesto puede tardar unos segundos en estar disponible, si no puedes acceder intentalo pasados unos segundos_`
+          value: `DXP Urban Mobility te informa, pulsa en este enlace para ver el presupuesto ${this.sale.id} de tu reparación\n ${PRESUPUESTO_URL} \n Para proceder a la repación es necesario que aceptes el presupuesto, entrando en el enlace y pulsando el boton de ACEPTAR PRESUPUESTO.\N Gracias por confiar en nosotors, un saludo.`
         }
       ],
       buttons: [
