@@ -7,7 +7,7 @@
     </ion-buttons>
     <ion-title>{{ sale.id }}</ion-title>
     <ion-buttons slot="end">
-      <ion-button (click)="endTask()" *ngIf="sale.state === 'draft' || sale.state === 'sent' ">
+      <ion-button (click)="endTask()" *ngIf="sale.state === 'draft' || sale.state === 'sent' || sale.state === 'cancel' ">
         <ion-icon slot="icon-only" name="checkmark-circle-outline"></ion-icon>
       </ion-button>
       <ion-button (click)="update()">
@@ -56,6 +56,10 @@
 
       <ion-button size="small" (click)="getLink()" *ngIf="sale.state === 'draft' && !sale.access_token ">
         Generar Link Presupuesto
+      </ion-button>
+
+      <ion-button size="small" (click)="openWhatsappCancel(partner.phone_sanitized)" *ngIf="sale.state === 'cancel' ">
+        <ion-icon slot="start" name="logo-whatsapp"></ion-icon> Recoger Patinete
       </ion-button>
 
 

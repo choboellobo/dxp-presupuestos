@@ -183,6 +183,34 @@ export class SalePage implements OnInit {
     window.open('https://wa.me/' + _phone )
   }
 
+  async openWhatsappCancel(phone: string) {
+    const alertRef  = await this.alertCtrl.create({
+      header: 'Enviar Whatsapp',
+      subHeader: phone,
+      inputs: [
+        {
+          type: 'textarea',
+          name: 'message',
+          value: `DXP Urban Mobility te informa, que la reparación número ${this.sale.id } de tu patinete NO FUE ACEPTADA. Su vehiculo esta listo para recoger, de no ser retirado en 7 días desde hoy su vehiculo se mandara al depósito como vehículo abandonado, recuerda estamos en Calle del Arzobispo Gandasegui, 5, 47002 Valladolid,
+https://shorturl.at/gpsY9 \n Nos ayuda muchísimo tu opinión.\n Muchas gracias por confiar en nosotros.`
+        }
+      ],
+      buttons: [
+        'Cancelar',
+        {
+          text: "Enviar",
+          handler: ({message}) => {
+            const _phone = phone.replace('+', '');
+            const url = 'https://wa.me/' + _phone.trim() + '?text=' + encodeURIComponent(message)
+            window.open(url )
+          }
+        }
+      ]
+    })
+    await alertRef.present();
+
+  }
+
   async openWhatsappPresupuesto(phone: string) {
     const b64id = btoa(this.sale.id.toString())
     const PRESUPUESTO_URL = 'https://presupuestos-dxp.web.app/' + b64id;
@@ -193,7 +221,7 @@ export class SalePage implements OnInit {
         {
           type: 'textarea',
           name: 'message',
-          value: `DXP Urban Mobility te informa, pulsa en este enlace para ver el presupuesto ${this.sale.id} de tu reparación\n ${PRESUPUESTO_URL} \n Para proceder a la repación es necesario que aceptes el presupuesto, entrando en el enlace y pulsando el boton de ACEPTAR PRESUPUESTO.\N Gracias por confiar en nosotors, un saludo.`
+          value: `DXP Urban Mobility te informa, que tienes que *AÑADIR NUESTRO NÚMERO DE WHATSAPP* para ver el *ENLACE* del presupuesto ${this.sale.id} \n\n ${PRESUPUESTO_URL} \n\n Para proceder a la repación es necesario que aceptes el presupuesto, entrando en el enlace y pulsando el boton de ACEPTAR PRESUPUESTO.\n Gracias por confiar en nosotors, un saludo.`
         }
       ],
       buttons: [
