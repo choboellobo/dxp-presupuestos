@@ -2,6 +2,7 @@
   <ion-toolbar>
     <ion-title>Trabajo pendiente</ion-title>
     <ion-buttons slot="end">
+      <ion-button (click)="getOrderDraft()">Refrescar</ion-button>
       <ion-button (click)="modalCtrl.dismiss()">
         <ion-icon slot="icon-only" name="close-outline"></ion-icon>
       </ion-button>
@@ -22,10 +23,19 @@
         <ion-item *ngFor="let _order of orders" (click)="openOrder(_order.id)">
           <ion-label>
             <h4> <strong>({{ _order.id }})</strong>  {{ _order.partner_id[1] }}</h4>
-            <small *ngIf="_order.activity_user_id">Para hacer por  <strong>{{ _order.activity_user_id[1]  }}</strong></small>
             <p>Fecha orden de trabajo: <strong>{{_order.date_order | date:'dd/MM/yyyy'}}</strong></p>
+            <ion-text color="success">
+              <p *ngIf="_order.access_token && _order.state === 'draft' ">PRESUPUESTO ENVIADO</p>
+            </ion-text>
+            
           </ion-label>
-          <ion-buttons slot="end" *ngIf="_order.state === 'sent' || _order.state === 'cancel' ">
+          <ion-buttons slot="end" *ngIf="_order.state === 'sent' || _order.state === 'cancel' || _order.activity_state === 'planned' ">
+            
+
+            <ion-button size="small" disabled color="warning" *ngIf="_order.activity_state === 'planned' ">
+              <ion-icon slot="icon-only" name="construct"></ion-icon>
+            </ion-button>
+
             <ion-button size="small" disabled color="success" *ngIf="_order.state === 'sent' ">
               <ion-icon slot="icon-only" name="checkmark-circle"></ion-icon>
             </ion-button>

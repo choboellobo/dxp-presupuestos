@@ -30,18 +30,19 @@
   </ion-toolbar>
 </ion-header>
 <div class="line ion-text-center" [ngClass]="sale.state" *ngIf="sale.state === 'sent' || sale.state === 'cancel' ">
-  {{ sale.state === 'sent' ? 'Presupuesto aceptado': '' }}
+  {{ sale.state === 'sent' ? 'Presupuesto aceptado': '' }} {{ sale.state === 'sent' && sale.activity_state === 'planned' ? ' - Reparación en curso': '' }}
   {{ sale.state === 'cancel' ? 'Presupuesto NO aceptado': '' }}
 </div> 
 <ion-content class="ion-padding">
   <ion-row>
-
     <ion-col size="12">
       <div>Cliente: <strong>{{ sale.partner_id | json }}</strong></div>
       <div>Estado de la orden: <strong>{{ status(sale.state ) }}</strong></div>
       <div>Fecha: <strong>{{ sale.date_order | date: 'dd/MM/yyyy'}}</strong></div>
     </ion-col>
     <ion-col size="12" *ngIf="partner && partner.phone_sanitized" class="ion-text-center">
+      <ion-button *ngIf="sale.activity_state !== 'planned' && sale.state === 'sent' " size="small" expand="block" (click)="setActivity()"> Inicio Reparación </ion-button>
+
       <ion-button size="small" [href]="'tel:' + partner.phone_sanitized">
         <ion-icon slot="icon-only" name="call-outline"></ion-icon>
         <!-- {{ partner.phone_sanitized}} -->
@@ -54,9 +55,9 @@
         <ion-icon slot="start" name="logo-whatsapp"></ion-icon> Presupuesto
       </ion-button>
 
-      <ion-button size="small" (click)="getLink()" *ngIf="sale.state === 'draft' && !sale.access_token ">
+      <!-- <ion-button size="small" (click)="getLink()" *ngIf="sale.state === 'draft' && !sale.access_token ">
         Generar Link Presupuesto
-      </ion-button>
+      </ion-button> -->
 
       <ion-button size="small" (click)="openWhatsappCancel(partner.phone_sanitized)" *ngIf="sale.state === 'cancel' ">
         <ion-icon slot="start" name="logo-whatsapp"></ion-icon> Recoger Patinete

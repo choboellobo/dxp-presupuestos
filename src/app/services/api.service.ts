@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import * as moment from 'moment';
 
 @Injectable({
   providedIn: 'root'
@@ -84,10 +85,28 @@ export class ApiService {
 
   getLink(id: number ) {
     return this.http.get(this.url + '/sale-link/' + id )
-
   }
 
   subscribeTopic( token: string ) {
     return this.http.post(this.url + '/subscribe-push/all', { token })
+  }
+
+  setActivity(id: string ) {
+    const body = {
+      activity_type_id : 4,
+      date_deadline: moment().add(10, 'days').format('YYYY-MM-DD'),
+      note: false,
+      recommended_activity_type_id: false,
+      res_id: parseInt(id),
+      res_model_id: 501,
+      summary: false,
+      user_id: 2
+    }
+    
+    return this.http.post(this.url + '/activity' , body )
+  }
+
+  deleteActivity(id: string ) {
+    return this.http.delete(this.url + '/activity/' +  id )
   }
 }

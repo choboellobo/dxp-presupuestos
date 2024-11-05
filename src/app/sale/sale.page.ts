@@ -29,9 +29,6 @@ export class SalePage implements OnInit {
 
   ngOnInit() {
     this.getData();
-    if( this.sale.state === 'draft'  && !this.sale.access_token ) {
-      this.getLink();
-    }
   }
 
   getData() {
@@ -125,6 +122,7 @@ export class SalePage implements OnInit {
       .subscribe(
         sale => {
           loading.dismiss();
+          this.setActivityCancel();
           this.update();
         }
       )
@@ -178,9 +176,9 @@ export class SalePage implements OnInit {
       })
   }
 
-  openWhatsapp(phone: string) {
+  openWhatsapp(phone: string, message: string = '') {
     const _phone = phone.replace('+', '');
-    window.open('https://wa.me/' + _phone )
+    window.open('https://wa.me/' + _phone + '?text=' + encodeURIComponent(message) );
   }
 
   async openWhatsappCancel(phone: string) {
@@ -229,6 +227,9 @@ https://shorturl.at/gpsY9 \n Nos ayuda muchísimo tu opinión.\n Muchas gracias 
         {
           text: "Enviar",
           handler: ({message}) => {
+            if( this.sale.state === 'draft'  && !this.sale.access_token ) {
+              this.getLink();
+            }
             const _phone = phone.replace('+', '');
             const url = 'https://wa.me/' + _phone.trim() + '?text=' + encodeURIComponent(message)
             window.open(url )
@@ -301,6 +302,33 @@ https://shorturl.at/gpsY9 \n Nos ayuda muchísimo tu opinión. Valora con una re
     this.line = null as any;
     this.price = null as any;
     this.quantity = null as any;
+  }
+
+  async setActivity() {
+    const message = `Ha comenzado la reparación de su vehículo, le avisaremos en cuanto esté listo para que pueda venir a recogerlo, un saludo.`
+    const loadingRef = await this.loadingCtrl.create();
+    await loadingRef.present();
+    this.apiService.setActivity( this.sale.id.toString() )
+      .subscribe( () => {
+        loadingRef.dismiss();
+        this.update();
+        this.openWhatsapp(this.partner.phone_sanitized, message);
+      })
+  }
+
+  async setActivityCancel() {
+    const loadingRef = await this.loadingCtrl.create();
+   
+    const id = this.sale.activity_ids[0];
+    if( id ) {
+      await loadingRef.present();
+      this.apiService.deleteActivity( id )
+      .subscribe( () => {
+        loadingRef.dismiss();
+        this.update();
+      })
+    }
+    
   }
 
 

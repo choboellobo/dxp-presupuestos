@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { StatusBar, Style } from '@capacitor/status-bar';
 import { ModalController, Platform } from '@ionic/angular';
 import { OrderDraftComponent } from './order-draft/order-draft.component';
@@ -8,7 +8,7 @@ import { NotificationsService } from './services/notifications.service';
   templateUrl: 'app.component.html',
   styleUrls: ['app.component.scss'],
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   constructor(
     private platform: Platform,
     private modalCtrl: ModalController,
@@ -21,6 +21,9 @@ export class AppComponent {
       }
     })
   }
+  ngOnInit() {
+    this.openOrderDraft();
+  }
 
   async init() {
     await StatusBar.setStyle({ style: Style.Dark });
@@ -29,7 +32,9 @@ export class AppComponent {
 
   async openOrderDraft() {
     const modalRef = await this.modalCtrl.create({
-      component: OrderDraftComponent
+      component: OrderDraftComponent,
+      initialBreakpoint: 0.69,
+      breakpoints: [0.69, 0.75, 1]
     })
     await modalRef.present();
   }

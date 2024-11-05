@@ -74,6 +74,7 @@ app.post('/sale-line', (req, res) => {
         })
     })
 })
+
 app.delete('/sale-line/:id', (req, res) => {
 
     odoo.connect( (err) => {
@@ -166,6 +167,28 @@ app.post('/subscribe-push/:topic', (req, res ) => {
         res.status(400).send('Faltan campos')
     }
 })
+
+app.post('/activity', (req, res) => {
+    odoo.connect( (err) => {
+        if( err ) return res.status(500).json(err);
+        odoo.create('mail.activity', req.body, (err, data) => {
+            if( err ) return res.status(500).json(err);
+            res.json(data)
+        })
+    })
+})
+
+app.delete('/activity/:id', (req, res) => {
+    odoo.connect( (err) => {
+        if( err ) return res.status(500).json(err);
+        odoo.delete('mail.activity', parseInt(req.params.id), (err, data) => {
+            if( err ) return res.status(500).json(err);
+            res.json(data)
+        })
+    })
+});
+
+
 
 
 

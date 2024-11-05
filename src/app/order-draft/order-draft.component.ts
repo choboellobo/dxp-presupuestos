@@ -76,7 +76,7 @@ export class OrderDraftComponent implements OnInit {
   openOrder(id: number) {
     this.order = id.toString();
     this.getOrderAndOpenModal(this.order)
-    this.modalCtrl.dismiss()
+    //this.modalCtrl.dismiss()
     setTimeout(() => this.order = '', 2000)
   }
 
