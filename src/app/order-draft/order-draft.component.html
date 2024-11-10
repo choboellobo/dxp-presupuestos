@@ -24,7 +24,7 @@
           <ion-label>
             <h4> <strong>({{ _order.id }})</strong>  {{ _order.partner_id[1] }}</h4>
             <p>Fecha orden de trabajo: <strong>{{_order.date_order | date:'dd/MM/yyyy'}}</strong></p>
-            <ion-text color="success">
+            <ion-text color="warning">
               <p *ngIf="_order.access_token && _order.state === 'draft' ">PRESUPUESTO ENVIADO</p>
             </ion-text>
             

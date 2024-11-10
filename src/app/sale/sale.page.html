@@ -51,7 +51,7 @@
         <ion-icon slot="icon-only" name="logo-whatsapp"></ion-icon>
       </ion-button>
 
-      <ion-button size="small" (click)="openWhatsappPresupuesto(partner.phone_sanitized)" *ngIf="sale.state === 'draft' && sale.access_token ">
+      <ion-button size="small" (click)="openWhatsappPresupuesto(partner.phone_sanitized)" *ngIf="sale.state === 'draft' ">
         <ion-icon slot="start" name="logo-whatsapp"></ion-icon> Presupuesto
       </ion-button>
 
