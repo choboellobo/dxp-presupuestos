@@ -3,16 +3,83 @@
 
 
   <img src="../../assets/logo.png" width="100%">
+
+  <ion-segment [value]="segment" (ionChange)="handleSegment($event)">
+    <ion-segment-button value="taller">
+      <ion-label>Taller</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="almacen">
+      <ion-label>Almacen</ion-label>
+    </ion-segment-button>
+  </ion-segment>
   
-  <ion-button expand="full" (click)="startScanner()" [hidden]="scanActive">
-    Escanear ORDEN DE TRABAJO
-  </ion-button>
-  <ion-item color="secondary" [hidden]="scanActive">
-    <ion-label>Buscar orden</ion-label>
-    <ion-input type="tel" [(ngModel)]="order"></ion-input>
-  </ion-item>
-  <div class="ion-padding ion-text-center">
-    <ion-button [hidden]="scanActive" (click)="searchOrder()">Buscar</ion-button>
+  <div *ngIf="segment === 'taller' " [hidden]="scanActive">
+    <ion-button expand="full" (click)="startScanner()" [hidden]="scanActive">
+      Escanear ORDEN DE TRABAJO
+    </ion-button>
+    <ion-item color="secondary" [hidden]="scanActive">
+      <ion-label>Buscar orden</ion-label>
+      <ion-input type="tel" [(ngModel)]="order"></ion-input>
+    </ion-item>
+    <div class="ion-padding ion-text-center">
+      <ion-button [hidden]="scanActive" (click)="searchOrder()">Buscar</ion-button>
+    </div>
+  </div>
+
+  <div *ngIf="segment === 'almacen' " [hidden]="scanActive">
+    <ion-refresher slot="fixed" (ionRefresh)="handleRefresh($event)">
+      <ion-refresher-content></ion-refresher-content>
+    </ion-refresher>
+    <ion-row>
+      <ion-col size="6">
+        <ion-button expand="block" (click)="searchProductByCode()" [hidden]="scanActive">
+          <ion-icon slot="start" name="scan-outline"></ion-icon>
+          Scan Producto
+        </ion-button>
+      </ion-col>
+      <ion-col size="6">
+        <ion-button expand="block">
+          <ion-icon slot="start" name="list-outline"></ion-icon>
+          Ver pedidos
+        </ion-button>
+      </ion-col>
+    </ion-row>
+
+    <ion-row *ngIf="current_cart_id && products_cart.length">
+      <ion-col>
+        <ion-list  class="current-cart-list">
+          <ion-list-header>Pedido actual</ion-list-header>
+          <ion-item-sliding *ngFor="let product of products_cart">
+            <ion-item>
+              <ion-label>
+                <h1>{{ product.name }}</h1>
+                <small>{{ product.sku }} --- <strong>{{ product.quantity}} x {{ product.cost }} = {{ product.quantity * product.cost }} €</strong></small> 
+              </ion-label>
+              <ion-buttons>
+                <ion-button (click)="addOrRemoveQuantityProductCart('decrement', product.id, product.quantity)">-</ion-button>
+                <ion-button>{{ product.quantity }}</ion-button>
+                <ion-button (click)="addOrRemoveQuantityProductCart('increment', product.id, product.quantity)">+</ion-button>
+              </ion-buttons>
+            </ion-item>
+            <ion-item-options>
+              <ion-item-option color="danger" (click)="deleteProductCart( product.id )">
+                <ion-icon slot="icon-only" name="trash"></ion-icon>
+              </ion-item-option>
+            </ion-item-options>
+          </ion-item-sliding>
+        </ion-list>
+        <ion-button (click)="setCartNotActive()" expand="block"> Finalizar Pedido</ion-button>
+      </ion-col> 
+    </ion-row>
+   
+    
+    <ion-row *ngIf="products_cart.length === 0">
+      <ion-col>
+        <ion-text color="primary" class="ion-text-center">
+          <h1>No hay productos para pedir </h1>
+        </ion-text>
+      </ion-col>
+    </ion-row>
   </div>
 
 

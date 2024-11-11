@@ -9,10 +9,16 @@ import { AppRoutingModule } from './app-routing.module';
 import { HttpClientModule } from '@angular/common/http'
 import { OrderDraftComponent } from './order-draft/order-draft.component';
 import { FormsModule } from '@angular/forms';
+import { environment } from 'src/environments/environment';
+import { provideFirebaseApp, initializeApp} from '@angular/fire/app'
+import { provideFirestore, getFirestore} from '@angular/fire/firestore'
+
 
 @NgModule({
   declarations: [AppComponent, OrderDraftComponent],
   imports: [
+    provideFirebaseApp(() => initializeApp(environment.firebaseConfig)),
+    provideFirestore( () => getFirestore() ),
     FormsModule,
     HttpClientModule,
     BrowserModule, IonicModule.forRoot(), AppRoutingModule],

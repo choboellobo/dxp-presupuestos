@@ -32,3 +32,13 @@ ion-list {
       color: white;
   }
 }  
+
+
+.current-cart-list {
+  height: 55vh;
+  box-shadow: 1px 1px 4px black;
+  overflow: auto;
+  ion-list-header {
+    color: var(--ion-color-primary);
+  }
+}
