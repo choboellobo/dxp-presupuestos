@@ -1,0 +1,40 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Pedidos</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="modalCtrl.dismiss()">
+        <ion-icon slot="icon-only" name="close-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <ion-row>
+    <ion-col>
+      <ion-accordion-group>
+        
+        <ion-accordion (click)="getProductCart(cart.id, cart.product)" [value]="cart.id" *ngFor="let cart of carts">
+          <ion-item slot="header">
+            <ion-label>Pedidos {{ cart.date | date:'dd/MM/yyyy'}}</ion-label>
+          </ion-item>
+          <div class="ion-padding" slot="content">
+           <ion-list>
+            <ion-button *ngIf="cart.products" (click)="generateCsv(cart.products)"> Descargar productos</ion-button>
+            <ion-item *ngFor="let product of cart.products">
+              <ion-label>
+                <h2>{{ product.name}}</h2> 
+                <strong>{{ product.sku}}</strong> <br>
+                <small> {{product.cost }} € x {{ product.quantity}} = {{ product.cost * product.quantity}} €</small>
+              </ion-label>
+
+            </ion-item>
+           </ion-list>
+            
+          </div>
+        </ion-accordion>
+
+      </ion-accordion-group>
+    </ion-col>
+  </ion-row>
+</ion-content>

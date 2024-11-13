@@ -1,6 +1,6 @@
 {
   "name": "dxp-presupuestos",
-  "version": "1.0.8",
+  "version": "1.0.9",
   "author": "Ionic Framework",
   "homepage": "https://ionicframework.com/",
   "scripts": {
@@ -24,9 +24,11 @@
     "@capacitor/android": "4.6.2",
     "@capacitor/app": "4.1.1",
     "@capacitor/core": "4.6.2",
+    "@capacitor/filesystem": "^4.0.0",
     "@capacitor/haptics": "4.1.0",
     "@capacitor/keyboard": "4.1.1",
     "@capacitor/push-notifications": "^4.1.2",
+    "@capacitor/share": "^4.0.0",
     "@capacitor/status-bar": "4.1.1",
     "@ionic/angular": "^6.1.9",
     "ionicons": "^6.0.3",

@@ -1,0 +1,53 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Producto</ion-title>
+    <ion-buttons slot="end">
+      <ion-button *ngIf="product?.product_id" (click)="deleteProduct()" color="danger">Borrar</ion-button>
+
+      <ion-button (click)="modalCtrl.dismiss()">
+        <ion-icon slot="icon-only" name="close-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content class="ion-padding">
+
+  <ion-row>
+    <ion-col>
+      <ion-card>
+        <ion-item>
+          <ion-label position="stacked">Nombre</ion-label>
+          <ion-input type="text" [(ngModel)]="product.name" ></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label position="stacked">Precio</ion-label>
+          <ion-input type="number" [(ngModel)]="product.price" ></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label position="stacked">Costo</ion-label>
+          <ion-input type="number" [(ngModel)]="product.cost" ></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label position="stacked">SKU</ion-label>
+          <ion-input type="text" [(ngModel)]="product.sku" ></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label position="stacked">Código</ion-label>
+          <ion-input type="text" [(ngModel)]="product.code"  disabled></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label position="stacked">Notas</ion-label>
+          <ion-textarea [(ngModel)]="product.notes"></ion-textarea>
+        </ion-item>
+      </ion-card>
+      <ion-button (click)="saveProduct()" expand="block" [disabled]="!canSave">
+        <ion-icon slot="start" name="save-outline"></ion-icon>
+        Guardar
+      </ion-button>
+
+    </ion-col>
+  </ion-row>
+
+</ion-content>

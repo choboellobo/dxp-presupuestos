@@ -22,7 +22,7 @@ export class AppComponent implements OnInit {
     })
   }
   ngOnInit() {
-    this.openOrderDraft();
+    //this.openOrderDraft();
   }
 
   async init() {

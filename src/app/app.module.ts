@@ -12,10 +12,12 @@ import { FormsModule } from '@angular/forms';
 import { environment } from 'src/environments/environment';
 import { provideFirebaseApp, initializeApp} from '@angular/fire/app'
 import { provideFirestore, getFirestore} from '@angular/fire/firestore'
+import { ProductComponent } from './product/product.component';
+import { CartsComponent } from './carts/carts.component';
 
 
 @NgModule({
-  declarations: [AppComponent, OrderDraftComponent],
+  declarations: [AppComponent, OrderDraftComponent, ProductComponent, CartsComponent],
   imports: [
     provideFirebaseApp(() => initializeApp(environment.firebaseConfig)),
     provideFirestore( () => getFirestore() ),

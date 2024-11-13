@@ -6,6 +6,8 @@ import { ApiService } from '../services/api.service';
 import { NotificationsService } from '../services/notifications.service';
 import { OrderDraftComponent } from '../order-draft/order-draft.component';
 import { DatabaseService } from '../services/database.service';
+import { ProductComponent } from '../product/product.component';
+import { CartsComponent } from '../carts/carts.component';
 
 @Component({
   selector: 'app-home',
@@ -28,7 +30,8 @@ export class HomePage {
     private dbService: DatabaseService
   ) {
     
-      this.getCurrentCart();
+    this.getCurrentCart();
+    this.openModalOrderDraft();
    
     this.notificationsService.openSale$.subscribe( sale => {
       this.getOrderAndOpenModal(sale.toString());
@@ -46,7 +49,6 @@ export class HomePage {
         this.current_cart_id = cart_id;
         this.dbService.getProductsCart(cart_id).then( products => {
           products.docs.forEach( doc => {
-            console.log(doc.data());
             this.products_cart.push({...doc.data(), id: doc.id});
           });
         });
@@ -101,6 +103,7 @@ export class HomePage {
     await alert.present();
   }
 
+
   async setCartNotActive() {
     const alertRef = await this.alertCtrl.create({
       header: 'Finalizar Pedido',
@@ -114,7 +117,7 @@ export class HomePage {
           text: 'Finalizar',
           handler: () => {
 
-            this.exportToCsv(this.products_cart, 'cart.csv');
+            this.dbService.exportToCsv(this.products_cart, 'cart.csv');
             this.dbService.setCartNotActive(this.current_cart_id).then( () => {
               this.getCurrentCart();
             });
@@ -131,6 +134,12 @@ export class HomePage {
     this.getCurrentCart();
     event.target.complete();
   }
+  async openCarts() {
+    const modalRef = await this.modalCtrl.create({
+      component: CartsComponent
+    })
+    await modalRef.present();
+  }
 
   /* PRODUCTS */
   async searchProductByCode() {
@@ -141,6 +150,13 @@ export class HomePage {
           const product = products.docs[0].data() as any
           const alertRef = await this.alertCtrl.create({
             header: product.name,
+            inputs: [
+              {
+                name: 'quantity',
+                type: 'number',
+                value: '1'
+              }
+            ],
             message: `
               <strong>Precio:</strong> ${product.price} €<br>
               <strong>Costo:</strong> ${product.cost} €<br>
@@ -155,27 +171,30 @@ export class HomePage {
               {
                 text: 'Editar',
                 handler: () => {
-                  
+                  this.openProduct({...product, product_id});
                 }
               },
               {
                 text: 'Agregar',
-                handler: () => {
-                  this.addProductToCart({...product, product_id});
+                handler: ({quantity}) => {
+                  if( !quantity ) return alert('Debes ingresar una cantidad');
+                  this.addProductToCart({...product, product_id},  parseInt(quantity) );
                 }
               }
             ]
           });
           await alertRef.present();
         } else {
-          console.log('No se encontró el producto');
+          this.openProduct(null, code);
         }
         
       }).catch( error => {
         console.log(error);
       });
     };
+
     const allowed = await this.checkPermission();
+
     if (allowed) {
       this.scanActive = true;
       BarcodeScanner.hideBackground();
@@ -196,38 +215,53 @@ export class HomePage {
     
   }
 
-  async addProductToCart( product: any ) {
+  async addProductToCart( product: any, quantity: number = 1 ) {
 
     if( !this.current_cart_id ) {
       this.current_cart_id = await this.dbService.createCart();
     }
 
     const product_in_cart =  this.products_cart.find( p => p.product_id === product.product_id )
+    
     if( product_in_cart ) {
-
-      return this.addOrRemoveQuantityProductCart('increment', product_in_cart.id, product_in_cart.quantity );
+      const con = confirm('El producto ya está en el carrito, ¿Deseas agregar más?');
+      if( con ) {
+        product_in_cart.quantity = product_in_cart.quantity + quantity - 1;
+        return this.addOrRemoveQuantityProductCart('increment', product_in_cart.id, product_in_cart.quantity );
+      }
+      return 
     }
-    this.dbService.addProductToCart(this.current_cart_id, product).then( () => {
+    
+    this.dbService.addProductToCart(this.current_cart_id, product, quantity ).then( () => {
       this.getCurrentCart();
     });
     
   }
+
+  async openProduct(product: any, code?: string) {
+    const modalRef = await this.modalCtrl.create({
+      component: ProductComponent,
+      componentProps: { product, code }
+    })
+    await modalRef.present();
+  }
+
+  private async openModalOrderDraft() {
+    const modalRef = await this.modalCtrl.create({
+      component: OrderDraftComponent,
+      initialBreakpoint: 0.69,
+      breakpoints: [0.69, 0.75, 1]
+    })
+    await modalRef.present();
+  }
+    
 
 
   async handleSegment(event: any) {
     const segment = event.detail.value;
     if(segment === 'taller') {
       this.segment = 'taller';
-      
-
-        const modalRef = await this.modalCtrl.create({
-          component: OrderDraftComponent,
-          initialBreakpoint: 0.69,
-          breakpoints: [0.69, 0.75, 1]
-        })
-        await modalRef.present();
-      
-      
+      this.openModalOrderDraft();
     }
     if(segment === 'almacen') {
       this.segment = 'almacen';
@@ -306,43 +340,7 @@ export class HomePage {
 
 
 
-  private exportToCsv(data: any[], filename: string = 'data.csv'): void {
-    if (!data || !data.length) {
-      console.error('No data provided');
-      return;
-    }
-
-    // Obtener los encabezados (keys) del primer objeto del array
-    const headers = Object.keys(data[0]);
-    // Crear una fila de encabezado separada por comas
-    const csvRows = [headers.join(',')];
-
-    // Recorrer cada fila de datos para construir el CSV
-    data.forEach(row => {
-      const values = headers.map(header => {
-        const escaped = ('' + row[header]).replace(/"/g, '""'); // Escapar comillas dobles
-        return `"${escaped}"`; // Envolver cada valor en comillas dobles
-      });
-      csvRows.push(values.join(','));
-    });
-
-    // Crear un blob de los datos en formato CSV
-    const csvString = csvRows.join('\n');
-    const blob = new Blob([csvString], { type: 'text/csv' });
-
-    // Crear una URL de descarga
-    const url = window.URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.setAttribute('style', 'display:none;');
-    a.href = url;
-    a.download = filename;
-    document.body.appendChild(a);
-    a.click();
-
-    // Limpiar
-    window.URL.revokeObjectURL(url);
-    a.remove();
-  };
+  
 
 
 }

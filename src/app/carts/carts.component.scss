@@ -1,0 +1,32 @@
+ion-content {
+    --background: #36363a;
+  }
+
+  
+  ion-toolbar, ion-accordion {
+    background: #36363a;
+    --background: #36363a;
+    color: white;
+  }
+  ion-card {
+    --background: #36363a;
+  }
+  ion-list {
+    background: #36363a;
+  }  
+  ion-item {
+    --background: #36363a;
+    color: white;
+}
+
+ion-accordion.accordion-collapsing ion-item[slot='header'],
+ion-accordion.accordion-collapsed ion-item[slot='header'] {
+  --background: #36363a;
+  --color: white;
+}
+
+ion-accordion.accordion-expanding ion-item[slot='header'],
+ion-accordion.accordion-expanded ion-item[slot='header'] {
+  --background: var(--ion-color-primary);
+  --color: var(--ion-color-primary-contrast);
+}
