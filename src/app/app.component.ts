@@ -3,6 +3,8 @@ import { StatusBar, Style } from '@capacitor/status-bar';
 import { ModalController, Platform } from '@ionic/angular';
 import { OrderDraftComponent } from './order-draft/order-draft.component';
 import { NotificationsService } from './services/notifications.service';
+import { OrientationLockOptions, ScreenOrientation } from '@capacitor/screen-orientation';
+
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html',
@@ -15,6 +17,8 @@ export class AppComponent implements OnInit {
     private notificationService: NotificationsService
   ) {
     platform.ready().then(() => {
+      const orientation: OrientationLockOptions = { orientation: 'portrait' }
+      ScreenOrientation.lock( orientation)
       this.init();
       if( this.platform.is('android') ) {
         this.notificationService.init();

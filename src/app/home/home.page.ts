@@ -15,6 +15,8 @@ import { CartsComponent } from '../carts/carts.component';
   styleUrls: ['home.page.scss'],
 })
 export class HomePage {
+  camaras: any[] = [];
+  cameraDirection: 'front'|'back' = 'back'
   scanActive: boolean = false;
   order: string = '';
   segment: 'taller'|'almacen' = 'taller';
@@ -29,7 +31,7 @@ export class HomePage {
     private notificationsService: NotificationsService,
     private dbService: DatabaseService
   ) {
-    
+    this.getCamaras();
     this.getCurrentCart();
     this.openModalOrderDraft();
    
@@ -37,6 +39,49 @@ export class HomePage {
       this.getOrderAndOpenModal(sale.toString());
     })
   }
+
+  async getCamaras() {
+    await navigator.mediaDevices.getUserMedia({ video: true });
+    const devices = await navigator.mediaDevices.enumerateDevices();
+    this.camaras = devices.filter( device => device.kind === 'videoinput');
+  }
+
+  async setScanDirection() {
+    const alert = await this.alertCtrl.create({
+      header: 'Seleccionar cámara',
+      inputs: [
+        {
+          name: 'front',
+          type: 'radio',
+          label: 'Frontal',
+          value: 'front',
+          checked: this.cameraDirection === 'front'
+        },
+        {
+          name: 'back',
+          type: 'radio',
+          label: 'Trasera',
+          value: 'back',
+          checked: this.cameraDirection === 'back'
+        }
+      ],
+      buttons: [
+        {
+          text: 'Cancelar',
+          role: 'cancel'
+        },
+        {
+          text: 'Aceptar',
+          handler: (data) => {
+            debugger;
+            this.cameraDirection = data;
+          }
+        }
+      ]
+    });
+    await alert.present();
+  }
+
 
 
   /* CART */
@@ -159,6 +204,7 @@ export class HomePage {
             ],
             message: `
               <strong>Precio:</strong> ${product.price} €<br>
+               <strong>PVP:</strong> ${product.pvp} €<br>
               <strong>Costo:</strong> ${product.cost} €<br>
               <strong>SKU:</strong> ${product.sku}<br>
               <strong>Notas:</strong> ${product.notes}<br>
@@ -199,7 +245,7 @@ export class HomePage {
       this.scanActive = true;
       BarcodeScanner.hideBackground();
 
-      const result = await BarcodeScanner.startScan();
+      const result = await BarcodeScanner.startScan({ cameraDirection : this.cameraDirection });
        console.log( result);
       if (result.hasContent) {
         this.scanActive = false;
@@ -288,7 +334,7 @@ export class HomePage {
       this.scanActive = true;
       BarcodeScanner.hideBackground();
 
-      const result = await BarcodeScanner.startScan();
+      const result = await BarcodeScanner.startScan({ cameraDirection: this.cameraDirection });
 
       if (result.hasContent) {
         this.scanActive = false;

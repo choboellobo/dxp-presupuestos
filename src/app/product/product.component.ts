@@ -20,7 +20,8 @@ export class ProductComponent implements OnInit {
     this.product.price > 0 && 
     this.product.cost > 0 && 
     this.product.code.length > 0 &&
-    this.product.sku.length > 0
+    this.product.sku.length > 0 &&
+    this.product.pvp > 0;
   }
 
   ngOnInit() {
@@ -28,6 +29,7 @@ export class ProductComponent implements OnInit {
      this.product = {
       name: '',
       price: 0,
+      pvp: 0,
       cost: 0,
       code: this.code || '',
       sku: '',

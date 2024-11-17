@@ -93,5 +93,11 @@
 
 
 
+  <ion-fab slot="fixed" horizontal="start" vertical="bottom" *ngIf="camaras.length > 1"> 
+    <ion-fab-button size="small" (click)="setScanDirection()">
+      <ion-icon name="cog"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+
 
 </ion-content>
