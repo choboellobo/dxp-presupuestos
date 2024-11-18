@@ -189,7 +189,7 @@ export class SalePage implements OnInit {
         {
           type: 'textarea',
           name: 'message',
-          value: `DXP Urban Mobility te informa, que la reparación número ${this.sale.id } de tu vehículo NO FUE ACEPTADA. Su vehiculo esta listo para recoger, de no ser retirado en 7 días desde hoy su vehiculo se mandara al depósito como vehículo abandonado, recuerda estamos en Calle del Arzobispo Gandasegui, 5, 47002 Valladolid,
+          value: `DXP Urban Mobility te informa, que la reparación número ${this.sale.id } de tu vehículo NO FUE ACEPTADA. Su vehiculo esta listo para recoger, de no ser retirado en 7 días desde hoy su vehiculo se mandara al depósito como vehículo abandonado, recuerda estamos en Calle General Almirante 3, 47003 Valladolid,
 https://shorturl.at/gpsY9 \n Nos ayuda muchísimo tu opinión.\n Muchas gracias por confiar en nosotros.`
         }
       ],
@@ -248,7 +248,7 @@ https://shorturl.at/gpsY9 \n Nos ayuda muchísimo tu opinión.\n Muchas gracias 
         {
           type: 'textarea',
           name: 'message',
-          value: `DXP Urban Mobility te informa, que la reparación número ${this.sale.id } de tu vehículo ya ha finalizado. Puedes pasar ya a recogerlo, recuerda estamos en Calle del Arzobispo Gandasegui, 5, 47002 Valladolid,
+          value: `DXP Urban Mobility te informa, que la reparación número ${this.sale.id } de tu vehículo ya ha finalizado. Puedes pasar ya a recogerlo, recuerda estamos en Calle General Almirante 3, 47003 Valladolid,
 https://shorturl.at/gpsY9 \n Nos ayuda muchísimo tu opinión. Valora con una reseña tu experiencia en el siguiente enlace: https://g.page/r/CVx6TLRUhQKoEB0/review \n Muchas gracias por confiar en nosotros.`
         }
       ],
